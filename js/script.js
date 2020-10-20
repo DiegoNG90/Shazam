@@ -34,9 +34,5 @@ $botonEmpezar.onclick = adivinando;
 $botonReiniciar.onclick= function(e){
     e.preventDefault();
     adivinanza = "";
-    mayor= "";
-    maximo = 100;
-    minimo = 0;
-    mitad = Math.round((maximo+minimo)/2);
     adivinando();
 }
