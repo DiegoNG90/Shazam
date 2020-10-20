@@ -1,27 +1,38 @@
 console.log("Shazam conectado");
 
-const $botonSecreto = document.querySelector('#btn-secreto');
+const $botonEmpezar = document.querySelector('#btn-empezar');
+const $botonReiniciar = document.querySelector('#reiniciar');
 
-$botonSecreto.onclick = function(e){
-    e.preventDefault();
-    const numero = parseInt(document.querySelector('#adivinanza').value);
-    validarNumeroSecreto(numero);
-    
-    const esExito = validarNumeroSecreto(numero) === '';
-    if (esExito) {
-        document.querySelector('#adivinanza').className = "";
-        return console.log(numero);;
-    }else{
-        document.querySelector('#adivinanza').className = "error";
-        return console.log(validarNumeroSecreto(numero));
+
+let adivinanza = "";
+let mayor= "";
+let maximo = 100;
+let minimo = 0;
+let mitad = Math.round((maximo+minimo)/2);
+
+function adivinando(){
+    while(adivinanza !== true){
+        adivinanza = confirm(`Su numero es ${mitad}?`);
+        if(adivinanza){
+            alert(`Bien! He adivinado, tu número secreto es ${mitad}`)
+        }else if (!adivinanza) {
+            mayor = confirm(`Su numero es mayor a ${mitad}?`);
+            if(mayor === true){
+                minimo = mitad;
+                mitad = Math.round((maximo+minimo)/2);
+            }else if (!mayor) {
+                maximo = mitad;
+                mitad = Math.round((maximo+minimo)/2);
+            }
+        }else{
+            alert("Lo siento, no pude adivinar tu numero");
+        }
     }
-
 }
 
-function validarNumeroSecreto(numero){
-    if (!(/^[0-9]{1,2}$/.test(numero))) {
-        return 'El numero a ser adivinado no puede ser decimal, ni menor que 0 ni mayor a 100'; 
-    }else{
-        return '';
-    }
-} 
+$botonEmpezar.onclick = adivinando;
+$botonReiniciar.onclick= function(e){
+    e.preventDefault();
+    adivinanza = "";
+    adivinando();
+}
